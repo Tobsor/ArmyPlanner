@@ -1,0 +1,1 @@
+export { HeroLostItem as default } from "./HeroListItem";

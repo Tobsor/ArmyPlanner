@@ -1,0 +1,26 @@
+// schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  name      String?  @unique
+  heroes     Hero[]
+}
+
+model Hero {
+  id            Int     @id @default(autoincrement())
+  name          String
+  attackPower   Int
+  author    User?    @relation(fields: authorId, references: id)
+  authorId  Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

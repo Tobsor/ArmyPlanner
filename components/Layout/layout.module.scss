@@ -1,0 +1,21 @@
+.root {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    
+    .content {
+        width: 80%;
+        margin: auto;
+    }
+    
+    .footer {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .header {
+        display: flex;
+        justify-content: center;
+        background-color: #888888;
+    }
+}
