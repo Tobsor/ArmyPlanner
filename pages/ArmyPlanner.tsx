@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 import ArmyPlannerBoard from "../components/ArmyPlannerBoard/ArmyPlannerBoard";
-import HeroOverview from "../components/HeroOverview/HeroOverview";
+import HeroTile from "../components/HeroTile/HeroTile";
+
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 export const ArmyPlanner = () => {
   const [heroes, setHeroes] = useState([]);
@@ -14,10 +16,24 @@ export const ArmyPlanner = () => {
       .then(data => setHeroes(data))
   }, []);
 
-  return <div>
-    <ArmyPlannerBoard />
-    <HeroOverview heroes={heroes}/>
-  </div>
+  return <DragDropContext>
+    <Droppable droppableId="selected">
+      {(provided) => (
+        <ul
+          {...provided.droppableProps}
+          ref={provided.innerRef}
+        > {
+            heroes.map((hero, index) =>
+              <HeroTile
+                hero={hero}
+                index={index}
+              />
+            )
+          }
+        </ul>
+      )}
+    </Droppable>
+  </DragDropContext>
 };
 
 export default ArmyPlanner;

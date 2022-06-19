@@ -1,7 +1,13 @@
 import React from "react";
 
+import { Droppable } from 'react-beautiful-dnd';
+
 export const ArmyPlannerBoard = () => {
-  return <p>Army Planner Board</p>;
+  return <Droppable droppableId="selected">
+    {(provided) => (
+      <p  {...provided.droppableProps} ref={provided.innerRef}>Dropzone</p>
+    )}
+  </Droppable>;
 }
 
 export default ArmyPlannerBoard;
