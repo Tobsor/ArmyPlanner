@@ -23,8 +23,8 @@ export const Footer = () => {
         }}
       >
         <BottomNavigationAction value="/" label="Home" icon={<HomeIcon />} />
-        <BottomNavigationAction value="hero/add" label="New Hero" icon={<AddIcon />} />
-        <BottomNavigationAction value="armyPlanner" label="Army Planner" icon={<PeopleIcon />} />
+        <BottomNavigationAction value="/hero/add" label="New Hero" icon={<AddIcon />} />
+        <BottomNavigationAction value="/armyPlanner" label="Army Planner" icon={<PeopleIcon />} />
       </BottomNavigation>
     </div>
   );
