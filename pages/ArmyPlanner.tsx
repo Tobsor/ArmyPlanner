@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 import styles from "./armyPlanner.module.scss";
 import { HeroListDraggable } from "../components/HeroListDraggable/HeroListDraggable";
-import { RestaurantMenu } from "@mui/icons-material";
+import { HeroSummary } from "../components/HeroSummary/HeroSummary";
 
 export const ArmyPlanner = () => {
   const [heroes, setHeroes] = useState([]);
   const [selectedHeroes, setSelectedHeroes] = useState([]);
-  
+
   const draggableIds = ["selectedHeroes", "nonSelectedHeroes"];
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export const ArmyPlanner = () => {
     if (!result.destination) return;
 
     const draggableConfig = {
-      [draggableIds[0]] :{
+      [draggableIds[0]]: {
         items: selectedHeroes,
         setter: setSelectedHeroes,
       },
@@ -33,11 +33,11 @@ export const ArmyPlanner = () => {
         setter: setHeroes,
       }
     }
-    
+
     const from = draggableConfig[result.source.droppableId];
     const to = draggableConfig[result.destination.droppableId]
 
-    if(result.destination.droppableId === result.source.droppableId) {
+    if (result.destination.droppableId === result.source.droppableId) {
       const items = Array.from(from.items);
       const [reorderedItem] = items.splice(result.source.index, 1);
       items.splice(result.destination.index, 0, reorderedItem);
@@ -57,17 +57,20 @@ export const ArmyPlanner = () => {
   }
 
   return <div className={styles.root}>
-    <DragDropContext onDragEnd={handleOnDragEnd}>
-      <HeroListDraggable
-        heroes={selectedHeroes}
-        droppableId={draggableIds[0]}
-        className={styles.selected}
-      />
-      <HeroListDraggable
-        heroes={heroes}
-        droppableId={draggableIds[1]}
-      />
-    </DragDropContext>
+    <div className={styles.dragzone}>
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <HeroListDraggable
+          heroes={selectedHeroes}
+          droppableId={draggableIds[0]}
+          className={styles.selected}
+        />
+        <HeroListDraggable
+          heroes={heroes}
+          droppableId={draggableIds[1]}
+        />
+      </DragDropContext>
+    </div>
+    <HeroSummary heroes={selectedHeroes} />
   </div>
 };
 

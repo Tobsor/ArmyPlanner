@@ -1,4 +1,11 @@
 .root {
+  display: flex;
+  flex-direction: row;
+
+  .dragzone {
+    width: 80%;
+  }
+
   ul{
     display: flex;
     flex-wrap: wrap;
