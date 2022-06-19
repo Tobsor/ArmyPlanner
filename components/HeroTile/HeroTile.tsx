@@ -2,7 +2,9 @@ import { Hero } from "@prisma/client";
 import Image from "next/image";
 import React from "react";
 
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { Draggable } from 'react-beautiful-dnd';
+
+import styles from "./HeroTile.module.scss";
 
 interface Props {
   hero: Hero,
@@ -26,8 +28,9 @@ export const HeroTile = (props: Props) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
+          className={styles.root}
         >
-          {hero.name}
+          <h4>{hero.name}</h4>
           <Image
             src={`https://armyplannerimages.s3.eu-central-1.amazonaws.com/${hero.img}`}
             height="200"
