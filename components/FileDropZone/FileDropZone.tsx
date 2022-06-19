@@ -17,7 +17,6 @@ export const FileDropZone = (props: Props) => {
       {({ getRootProps, getInputProps }) => (
         <section>
           <div {...getRootProps({
-            onClick: event => console.log("dropped"),
             role: 'button',
             'aria-label': 'drag and drop area',
             className: styles.root

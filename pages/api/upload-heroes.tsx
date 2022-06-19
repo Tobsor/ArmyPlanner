@@ -17,14 +17,12 @@ export default async (req, res) => {
 
   const args = prepareArgs(heroes, authorId);
 
-  console.log(args)
-
   try {
     await prisma.hero.createMany({ data: args });
     
     res.status(200).json("Okay");
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(403).json({ err: "Error occured." });
   }
 };

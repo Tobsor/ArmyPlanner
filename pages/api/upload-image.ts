@@ -33,6 +33,6 @@ export default async function handler(req, res) {
     // 4. 
     return res.status(200).json(post)
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }
