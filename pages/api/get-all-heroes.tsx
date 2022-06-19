@@ -4,12 +4,19 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export default async (req, res) => {
-  const user = JSON.parse(req.body).user;
+  const user = req.body ? JSON.parse(req.body).user : null;
 
   try {
-    if(!user) {
-      res.status(200).json([]);
-      return;
+    let filter = {};
+
+    if(user) {
+      filter = {
+        where: {
+          author: {
+            name: user
+          }
+        }
+      }
     };
 
     const heroes = await prisma.hero.findMany({
@@ -18,11 +25,7 @@ export default async (req, res) => {
           select: { name: true },
         },
       },
-      where: {
-        author: {
-          name: user
-        }
-      }
+      ...filter,
     });
     
     res.status(200).json(JSON.parse(JSON.stringify(heroes)));
