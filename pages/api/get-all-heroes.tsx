@@ -4,8 +4,14 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export default async (req, res) => {
-  const user = req.body.user;
+  const user = JSON.parse(req.body).user;
+
   try {
+    if(!user) {
+      res.status(200).json([]);
+      return;
+    };
+
     const heroes = await prisma.hero.findMany({
       include: {
         author: {

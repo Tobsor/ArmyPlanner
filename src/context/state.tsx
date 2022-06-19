@@ -5,8 +5,13 @@ const AppContext = createContext([{
   localStorageLoaded: false,
 }]);
 
+interface UserContext {
+  userName?: string,
+  userId?: number,
+}
+
 export interface ContextState {
-  user: string,
+  user: UserContext,
   localStorageLoaded: boolean,
 }
 
@@ -17,11 +22,11 @@ export function AppWrapper({ children }) {
     if (typeof window !== "undefined") {
       const update = {
         localStorageLoaded: true,
-        user: "",
+        user: {},
       }
 
       if(localStorage.getItem('user')){
-        update.user = localStorage.getItem('user');
+        update.user = JSON.parse(localStorage.getItem('user'));
       }
 
       setContext(prevState => ({ ...prevState, ...update }))

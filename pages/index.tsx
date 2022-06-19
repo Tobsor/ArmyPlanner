@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { GetStaticProps } from "next"
 import HeroList from "../components/HeroList/HeroList";
 import { LoginModal } from "../components/LoginModal/LoginModal";
 
-import styles from 'index.module.scss';
 import { useAppContext } from "../src/context/state";
 
-import prisma from '../lib/prisma';
 import { Hero } from "@prisma/client";
 
 interface Props {
@@ -19,32 +16,30 @@ const LandingPage: React.FC<Props> = (props) => {
   const [heroes, setHeroes] = useState(props.initHeroes);
 
   useEffect(() => {
-    console.log(state);
-    if(state && typeof state.user === "string") {
-      setModalOpen(!state.user);
+    if(state) {
+      setModalOpen(!state.user.id);
       
       if(state.user){
-        fetch("/api/getAllHeroes", {
+        fetch("/api/get-all-heroes", {
           method: "post",
           body: JSON.stringify({
-            user: state.user
+            user: state.user.name
           })
         })
           .then(data => data.json())
           .then((data => setHeroes(data)))
       }
     }
-    
   }, [state]);
 
   return (
-      <div className="page">
-        <LoginModal open={modalOpen} closeHandler={() => setModalOpen(false)} />
-        <h3>Available Heroes</h3>
-        <main>
-          <HeroList heroes={heroes} />
-        </main>
-      </div>
+    <div className="page">
+      <LoginModal open={modalOpen} closeHandler={() => setModalOpen(false)} />
+      <h3>Available Heroes</h3>
+      <main>
+        <HeroList heroes={heroes} />
+      </main>
+    </div>
   )
 }
 

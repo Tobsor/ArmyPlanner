@@ -1,0 +1,16 @@
+.root {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.img {
+  margin: 10px;
+  height: 100px;
+  width: 100px;
+  position: relative;
+}
+
+.active {
+  border: 1px solid yellow;
+}

@@ -22,7 +22,7 @@ export const Footer = () => {
           setRoutingValue(newValue)
         }}
       >
-        <BottomNavigationAction value="" label="Home" icon={<HomeIcon />} />
+        <BottomNavigationAction value="/" label="Home" icon={<HomeIcon />} />
         <BottomNavigationAction value="hero/add" label="New Hero" icon={<AddIcon />} />
         <BottomNavigationAction value="armyPlanner" label="Army Planner" icon={<PeopleIcon />} />
       </BottomNavigation>

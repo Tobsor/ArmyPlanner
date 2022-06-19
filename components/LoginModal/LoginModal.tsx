@@ -6,10 +6,31 @@ import styles from "./LoginModal.module.scss";
 import Input from '@mui/material/Input';
 import { RestaurantMenu } from "@mui/icons-material";
 import { useAppContext } from "../../src/context/state";
+import { createSecureServer } from "http2";
 
 interface Props {
   open: boolean,
   closeHandler: () => void,
+}
+
+interface UserParam {
+  name: string
+}
+
+const getUser = (username: string) => {
+  return fetch("/api/get-user", {
+    body: JSON.stringify({ username }),
+    method: "post"
+  })
+    .then(data => data.json());
+}
+
+const createUser = (user: UserParam) => {
+  return fetch("/api/create-user", {
+    body: JSON.stringify(user),
+    method: "post",
+  })
+    .then(data => data.json());
 }
 
 export const LoginModal = (props: Props) => {
@@ -18,11 +39,17 @@ export const LoginModal = (props: Props) => {
 
   const [text, setText] = useState("");
 
-  const onClose = () => {
+  const onClose = async() => {
     if(!text) return;
     
-    setContext(prevState => ({ ...prevState, user: text }));
-    localStorage.setItem("user", text)
+    let user = await getUser(text);
+    
+    if(!user.id) {
+      user = await createUser({ name: text });
+    }
+        
+    setContext(prevState => ({ ...prevState, user }));
+    localStorage.setItem("user", JSON.stringify(user));
     closeHandler();
   }
 
