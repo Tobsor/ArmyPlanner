@@ -1,6 +1,5 @@
 import NextJSImage from "next/image";
-import React, { useEffect, useMemo, useState } from "react";
-import { HeroStats } from "../../pages/hero/add";
+import React, { useEffect, useState } from "react";
 
 import styles from './HeroQueue.module.scss';
 
@@ -21,7 +20,9 @@ export const HeroQueue = (props: Props) => {
       const image = new Image();
       image.height = 100;
       image.title = file.name;
-      image.src = this.result;
+      if(typeof this.result === "string") {
+        image.src = this.result;
+      }
 
       setFilelist(prevState => [...prevState, image]);
     });
