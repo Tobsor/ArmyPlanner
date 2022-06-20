@@ -3,8 +3,15 @@ import { Hero } from "@prisma/client";
 import React from "react";
 import HeroListItem from "./HeroListItem";
 
+interface HeroWithAuthor extends Hero {
+  author: {
+    id: string,
+    name: string,
+  }
+}
+
 interface Props {
-  heroes: Hero[]
+  heroes: HeroWithAuthor[]
 }
 
 export interface ColDef {
@@ -28,7 +35,7 @@ export const HeroList = (props: Props) => {
     },
     {
       label: "Author",
-      getValue: (hero: Hero) => hero.author.name
+      getValue: (hero: HeroWithAuthor) => hero.author.name
     },
     {
       label: "Updated",
