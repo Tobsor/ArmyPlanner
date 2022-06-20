@@ -11,7 +11,6 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import { useRouter } from "next/router";
 
 import type { GetServerSideProps } from "next";
-import { CoPresentOutlined } from "@mui/icons-material";
 
 interface Props {
   host: string;
@@ -37,8 +36,6 @@ export const ArmyPlanner = (props: Props) => {
   useEffect(() => {
     const preselected = router.query.selected || [];
 
-    console.log(router.query)
-
     fetchHeroes()
       .then(data => {
         if(!preselected || !preselected.length) {
@@ -46,13 +43,8 @@ export const ArmyPlanner = (props: Props) => {
           return;
         }
 
-        console.log(data);
-
         const preselectedHeroes = data.filter(hero => preselected.includes(hero.id));
         const rest = data.filter(hero => !preselected.includes(hero.id));
-
-        console.log(preselectedHeroes)
-        console.log(rest)
 
         setHeroes(rest);
         setSelectedHeroes(preselectedHeroes);
