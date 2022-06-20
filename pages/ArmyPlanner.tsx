@@ -5,19 +5,58 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import styles from "./armyPlanner.module.scss";
 import { HeroListDraggable } from "../components/HeroListDraggable/HeroListDraggable";
 import { HeroSummary } from "../components/HeroSummary/HeroSummary";
+import { Button } from "@mui/material";
 
-export const ArmyPlanner = () => {
+import ReplyIcon from '@mui/icons-material/Reply';
+import { useRouter } from "next/router";
+
+import type { GetServerSideProps } from "next";
+import { CoPresentOutlined } from "@mui/icons-material";
+
+interface Props {
+  host: string;
+};
+
+export const ArmyPlanner = (props: Props) => {
   const [heroes, setHeroes] = useState([]);
   const [selectedHeroes, setSelectedHeroes] = useState([]);
 
   const draggableIds = ["selectedHeroes", "nonSelectedHeroes"];
 
-  useEffect(() => {
-    fetch("/api/get-all-heroes", {
+  const router = useRouter();
+
+  const { host } = props;
+
+  const fetchHeroes = () => {
+    return fetch("/api/get-all-heroes", {
       method: "post",
     })
       .then(data => data.json())
-      .then(data => setHeroes(data))
+  }
+
+  useEffect(() => {
+    const preselected = router.query.selected || [];
+
+    console.log(router.query)
+
+    fetchHeroes()
+      .then(data => {
+        if(!preselected || !preselected.length) {
+          setHeroes(data);
+          return;
+        }
+
+        console.log(data);
+
+        const preselectedHeroes = data.filter(hero => preselected.includes(hero.id));
+        const rest = data.filter(hero => !preselected.includes(hero.id));
+
+        console.log(preselectedHeroes)
+        console.log(rest)
+
+        setHeroes(rest);
+        setSelectedHeroes(preselectedHeroes);
+      });
   }, []);
 
   const handleOnDragEnd = (result) => {
@@ -56,9 +95,23 @@ export const ArmyPlanner = () => {
     to.setter(toItems);
   }
 
+  const generateShareLink = () => {
+    const allSelectedIds = selectedHeroes.map(hero => hero.id);
+
+    const link = `${host}/${router.asPath}?selected=${allSelectedIds}`;
+
+    navigator.clipboard.writeText(link);
+  };
+
   return <div className={styles.root}>
     <div className={styles.dragzone}>
       <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Button
+          variant="outlined" 
+          onClick={generateShareLink}
+          startIcon={<ReplyIcon />}
+          className={styles.shareButton}
+        >Share</Button>
         <HeroListDraggable
           heroes={selectedHeroes}
           droppableId={draggableIds[0]}
@@ -73,5 +126,8 @@ export const ArmyPlanner = () => {
     <HeroSummary heroes={selectedHeroes} />
   </div>
 };
+
+export const getServerSideProps: GetServerSideProps<Props> =
+  async context => ({ props: { host: context.req.headers.host || null } });
 
 export default ArmyPlanner;
