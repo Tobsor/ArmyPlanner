@@ -11,8 +11,8 @@ const ctx : Context = {
 const AppContext = createContext(ctx);
 
 interface UserContext {
-  userName?: string,
-  userId?: number,
+  id?: string,
+  name?: number,
 }
 
 export interface ContextState {

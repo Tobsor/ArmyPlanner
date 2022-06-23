@@ -71,7 +71,7 @@ export const Add = () => {
     fetch("/api/upload-heroes", {
       method: "post",
       body: JSON.stringify({
-        authorId: state.user.userId,
+        authorId: state.user.id,
         heroes: newHeroes,
       })
     });

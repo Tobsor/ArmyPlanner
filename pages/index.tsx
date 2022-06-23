@@ -24,13 +24,13 @@ const LandingPage: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if(state) {
-      setModalOpen(!state.user.userId);
+      setModalOpen(!state.user.id);
       
       if(state.user){
         fetch("/api/get-all-heroes", {
           method: "post",
           body: JSON.stringify({
-            user: state.user.userName
+            user: state.user.name
           })
         })
           .then(data => data.json())
