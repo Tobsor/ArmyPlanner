@@ -18,7 +18,7 @@ export const Add = () => {
   const [activeHero, setActiveHero] = useState<HeroStats>();
   const [files, setFiles] = useState<File[]>([]);
 
-  const [state] = useAppContext();
+  const { state } = useAppContext();
 
   const handleChange = (newImages) => {
     const newHeroes = newImages.map((img) => ({
@@ -37,18 +37,14 @@ export const Add = () => {
     const filename = encodeURIComponent(file.name)
 
     const res = await fetch(`/api/upload-image?file=${filename}`, {
-      name: file.name,
-      type: "jpg",
       method: "post",
     })
 
-    const signedLink = await res.json()
-    const formData = new FormData()
+    const signedLink = await res.json();
+    const formData = new FormData();
 
     // @ts-ignore
-    Object.entries({ ...signedLink.fields, file }).forEach(([key, value]) => {
-      formData.append(key, value)
-    })
+    Object.entries({ ...signedLink.fields, file }).forEach(([key, value]) => formData.append(key, value))
 
     fetch(signedLink.url, {
       method: 'POST',
@@ -75,7 +71,7 @@ export const Add = () => {
     fetch("/api/upload-heroes", {
       method: "post",
       body: JSON.stringify({
-        authorId: state.user.id,
+        authorId: state.user.userId,
         heroes: newHeroes,
       })
     });

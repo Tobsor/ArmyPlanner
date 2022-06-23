@@ -1,14 +1,8 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { Hero } from "@prisma/client";
 import React from "react";
+import { HeroWithAuthor } from "../../pages";
 import HeroListItem from "./HeroListItem";
-
-interface HeroWithAuthor extends Hero {
-  author: {
-    id: string,
-    name: string,
-  }
-}
 
 interface Props {
   heroes: HeroWithAuthor[]

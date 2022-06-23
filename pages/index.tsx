@@ -6,24 +6,31 @@ import { useAppContext } from "../src/context/state";
 
 import { Hero } from "@prisma/client";
 
+export interface HeroWithAuthor extends Hero {
+  author: {
+    id: string,
+    name: string,
+  }
+}
+
 interface Props {
-  initHeroes: Hero[],
+  initHeroes: HeroWithAuthor[],
 }
 
 const LandingPage: React.FC<Props> = (props) => {
-  const [state] = useAppContext();
+  const { state } = useAppContext();
   const [modalOpen, setModalOpen] = useState(false);
   const [heroes, setHeroes] = useState(props.initHeroes);
 
   useEffect(() => {
     if(state) {
-      setModalOpen(!state.user.id);
+      setModalOpen(!state.user.userId);
       
       if(state.user){
         fetch("/api/get-all-heroes", {
           method: "post",
           body: JSON.stringify({
-            user: state.user.name
+            user: state.user.userName
           })
         })
           .then(data => data.json())
