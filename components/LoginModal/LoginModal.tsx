@@ -35,7 +35,9 @@ const createUser = (user: UserParam) => {
 
 export const LoginModal = (props: Props) => {
   const { open, closeHandler } = props;
-  const [state, setContext] = useAppContext();
+  const {
+    setContext
+  } = useAppContext();
 
   const [text, setText] = useState("");
 
