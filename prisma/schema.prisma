@@ -9,19 +9,30 @@ generator client {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  name      String?  @unique
-  heroes     Hero[]
+  id           Int            @id @default(autoincrement())
+  createdAt    DateTime       @default(now())
+  name         String?        @unique
+  heroes       Hero[]
+  HeroInstance HeroInstance[]
 }
 
 model Hero {
-  id            Int     @id @default(autoincrement())
-  name          String
-  img           String?
-  attackPower   Int
-  author        User?    @relation(fields: authorId, references: id)
-  authorId      Int?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id           Int            @id @default(autoincrement())
+  name         String
+  img          String?
+  author       User?          @relation(fields: authorId, references: id)
+  authorId     Int?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  HeroInstance HeroInstance[]
+}
+
+model HeroInstance {
+  id       Int   @id @default(autoincrement())
+  author   User? @relation(fields: authorId, references: id)
+  authorId Int?
+  hero     Hero? @relation(fields: heroId, references: id)
+  heroId   Int?
+  power    Int
+  img      String?
 }

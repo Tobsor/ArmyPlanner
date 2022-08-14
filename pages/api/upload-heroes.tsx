@@ -1,14 +1,14 @@
 
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../lib/prisma";
+import { HeroStats } from "../hero/add";
 
-const prisma = new PrismaClient();
-
-const prepareArgs = (heroes, authorId: string) => {
+const prepareArgs = (heroes: HeroStats[], authorId: string) => {
   return heroes.map(hero => ({
     ...hero,
     authorId,
     img: hero.img?.path,
-    identifier: undefined
+    identifier: undefined,
+    attackPower: undefined,
   }));
 }
 

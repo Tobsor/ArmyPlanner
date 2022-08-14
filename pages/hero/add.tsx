@@ -10,7 +10,6 @@ import styles from "./hero.module.scss";
 export interface HeroStats {
   identifier: string,
   name: string,
-  attackPower: Int16Array,
   img: File,
 }
 export const Add = () => {
@@ -118,16 +117,6 @@ export const Add = () => {
       <Input
         name="name"
         value={activeHero?.name}
-        onChange={setFormData}
-        disabled={!activeHero}
-      />
-    </FormControl>
-    <FormControl>
-      <FormLabel required>Attack Power</FormLabel>
-      <Input
-        name="attackPower"
-        type="number"
-        value={activeHero?.attackPower}
         onChange={setFormData}
         disabled={!activeHero}
       />

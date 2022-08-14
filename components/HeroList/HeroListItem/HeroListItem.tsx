@@ -1,24 +1,32 @@
-import { Hero } from "@prisma/client";
 import React from "react";
 
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { TableCell, TableRow } from "@mui/material";
 
 import { ColDef } from "../HeroList";
+import { PlayerHero } from "../../../pages";
+
+import styles from "./HeroListItem.module.scss";
 
 interface Props {
-  hero: Hero,
+  hero: PlayerHero,
   columnDef: ColDef[],
 }
 
 export const HeroLostItem = (props: Props) => {
   const { hero, columnDef } = props;
 
+  const classList = [
+    styles.iconCell,
+    styles.heroNameCell,
+    styles.heroPowerCell,
+  ]
+
   return <TableRow
     key={hero.name}
   >
     {
-      columnDef.map(({ getValue }) => 
-        <TableCell>{getValue(hero)}</TableCell>
+      columnDef.map(({ getValue }, index) => 
+        <TableCell className={classList[index]}>{getValue(hero)}</TableCell>
       )
     }
   </TableRow>
