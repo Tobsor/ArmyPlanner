@@ -1,18 +1,28 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, Dispatch, SetStateAction } from 'react';
 
-const AppContext = createContext([{
-  user: undefined,
-  localStorageLoaded: false,
-}]);
+const ctx : Context = {
+  state: {
+    user: undefined,
+    localStorageLoaded: false,
+  },
+  setContext: (data: ContextState) => {}
+};
+
+const AppContext = createContext(ctx);
 
 interface UserContext {
-  userName?: string,
-  userId?: number,
+  id?: string,
+  name?: number,
 }
 
 export interface ContextState {
   user: UserContext,
   localStorageLoaded: boolean,
+}
+
+interface Context {
+  state: ContextState;
+  setContext: Dispatch<SetStateAction<ContextState>>
 }
 
 export function AppWrapper({ children }) {
@@ -34,7 +44,7 @@ export function AppWrapper({ children }) {
   }, [])
 
   return (
-    <AppContext.Provider value={[state, setContext]}>
+    <AppContext.Provider value={{state, setContext}}>
       {children}
     </AppContext.Provider>
   );

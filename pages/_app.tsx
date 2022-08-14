@@ -14,9 +14,16 @@ import { AppWrapper } from "../src/context/state";
 
 const clientSideEmotionCache = createEmotionCache();
 
-const App = (props: AppProps) => {
-  const { Component, emotionCache =
-    clientSideEmotionCache, pageProps } = props;
+interface AppPropsEmotions extends AppProps {
+  emotionCache?: any
+};
+
+const App = (props: AppPropsEmotions) => {
+  const {
+    Component,
+    emotionCache = clientSideEmotionCache,
+    pageProps
+  } = props;
 
   return (
     <AppWrapper>
