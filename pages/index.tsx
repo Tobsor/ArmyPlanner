@@ -14,7 +14,7 @@ export interface PlayerHero {
 }
 
 const LandingPage: React.FC = () => {
-  const [state] = useAppContext();
+  const {state} = useAppContext();
   const [modalOpen, setModalOpen] = useState(false);
   const [heroes, setHeroes] = useState<PlayerHero[]>();
 

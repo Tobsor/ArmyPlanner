@@ -35,7 +35,7 @@ const updateHeroInstance = (power: number, heroInstanceId: number, refetch: () =
   }).then(() => refetch());
 }
 
-const createHeroInstance = (power: number, heroId: number, authorId: number, refetch: () => void) => {
+const createHeroInstance = (power: number, heroId: number, authorId: string, refetch: () => void) => {
   return fetch("/api/create-hero-instance", {
     method: "post",
     body: JSON.stringify({
@@ -46,11 +46,11 @@ const createHeroInstance = (power: number, heroId: number, authorId: number, ref
   }).then(() => refetch());;
 }
 
-const getHeroIcon = (hero: PlayerHero): ReactElement => {
+const getHeroIcon = (hero: PlayerHero): ReactElement[] => {
   return [<Avatar
     alt="error"
     src={`https://armyplannerimages.s3.eu-central-1.amazonaws.com/${hero.img}`}
-  />]
+  />];
 }
 
 const getHeroPower = (hero: PlayerHero, refetch: () => void) => {
@@ -61,7 +61,7 @@ const getHeroPower = (hero: PlayerHero, refetch: () => void) => {
     heroInstanceId,
   } = hero;
   
-  const [state] = useAppContext();
+  const {state} = useAppContext();
   
   const clickHandler = instantiated ?
     (level) => updateHeroInstance(level, heroInstanceId, refetch) :
@@ -101,6 +101,7 @@ export const HeroList = (props: Props) => {
     }
   ];
 
+  console.log(heroes);
   return <div>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
